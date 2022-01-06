@@ -1,7 +1,7 @@
 # indoors-servicenow-feature-service
 This is a complete integration solution for ArcGIS Indoors with ServiceNow application. This repo provides software tools required to populate ServiceNow location model and expose incidents and requests data on ArcGIS platform through a rest feature service. The figure below illustrates the flow of location data from ArcGIS Indoors Information model to ServiceNow and to ArcGIS clients through Koop.
 
-This repo also provides steps to configure 311 button on ArcGIS Indoors app to launch ServiceNow incident or request form and automatically populate form fields with location data and other values as specified in the URL scheme.
+This repo also provides steps to configure the launch actions button in ArcGIS Indoors Viewer and ArcGIS Indoors Mobile to launch a ServiceNow incident or request form and automatically populate form fields with location data and other values as specified in the URL scheme.
 
 
 ![Alt text](./indoors-servicenow.png "Diagram")
@@ -9,7 +9,7 @@ This repo also provides steps to configure 311 button on ArcGIS Indoors app to l
 ## Features
 - `python-loader`: Loads ArcGIS Indoors location data in ServiceNow location model.
 -	`koop-provider`: Provides ServiceNow incidents and requests location through a feature service.
--	`311`: Launch ServiceNow incident or request form from ArcGIS Indoors 311 button.
+-	`Launch actions`: Launch ServiceNow incident or request form from ArcGIS Indoors launch actions button.
 
 ## Requirements
 
@@ -31,7 +31,7 @@ For ServiceNow location loader, see the [python-loader](python-loader)
 For Koop provider for ServiceNow, see the [koop-provider](koop-provider)
 
 ## Resources
-- [ArcGIS Indoors Information model](https://pro.arcgis.com/en/pro-app/help/data/indoors/arcgis-indoors-information-model.htm)
+- [ArcGIS Indoors Information model](https://pro.arcgis.com/en/pro-app/latest/help/data/indoors/arcgis-indoors-information-model.htm)
 - [What is ArcPy](https://pro.arcgis.com/en/pro-app/arcpy/get-started/what-is-arcpy-.htm)
 - [What is Koop](https://koopjs.github.io/docs/basics/what-is-koop)
 - [ServiceNow Table API](https://docs.servicenow.com/bundle/madrid-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html)
