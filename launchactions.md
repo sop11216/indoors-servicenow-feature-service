@@ -1,7 +1,7 @@
-﻿# Configure 311 for Indoors (ServiceNow)
+﻿# Configure launch actions for Indoors (ServiceNow)
 
-ArcGIS Indoors offers a 311 action button to report incidents for items
-currently displayed in the info panel. The 311 button can be configured to
+ArcGIS Indoors offers a launch action button to report incidents for items
+currently displayed in the info panel. The launch button can be configured to
 launch a third party incident form, such as ServiceNow. When clicked, the action
 button will open the appropriate web form in a browser, and automatically fill
 out form fields with values specified in the URL. The following sections explain
@@ -10,13 +10,14 @@ for ServiceNow.
 
 ## Set up the action button
 
-An actionable URL must be specified in the Indoors Configuration table to enable
-the 311 action button. The invoked system will then be able to parse this URL.
-For more information, see the [Set up the 311 URL](https://pro.arcgis.com/en/pro-app/help/data/indoors/configure-311-for-indoors.htm#ESRI_SECTION1_0E2FE8C593994E659943E4344B13E5C8).
+Launch actions can be configured in ArcGIS Pro or in Indoor Viewer.
+An actionable URL must be specified to enable
+the launch action button. The invoked system will then be able to parse this URL.
+For more information, see the [Configure launch actions topic](https://pro.arcgis.com/en/pro-app/latest/help/data/indoors/configure-launch-actions-for-indoors-apps.htm).
 
 ## Syntax
 
-311 functionality is enabled by URLs and the syntax must follow URL conventions.
+Launch action functionality is enabled by URLs and the syntax must follow URL conventions.
 For example, special characters in the arguments must be URL encoded.
 
 For Indoors, values must be contained in curly brackets and match the following
@@ -26,7 +27,7 @@ sysparm_query=field1={Layer.Attribute}\^field2={Attribute}
 
 > Note:
 The layer is optional, and if left out, it will default to the current item for
-which the 311 action button is clicked. Many 311 use cases will require passing
+which the launch action action button is clicked. Many launch action use cases will require passing
 attributes from a different layer in the map or scene. This is supported with
 the layer operator. Arguments and values are not case-sensitive.
 
@@ -47,7 +48,7 @@ sysparm_query=site={FACILITIES.SITE_ID}
 ## Example URLs
 
 Below you will find a list of example URLs that demonstrate ways of configuring
-311 for ServiceNow. For more information, see the [ServiceNow URL Schema](https://docs.servicenow.com/bundle/madrid-platform-user-interface/page/use/navigation/reference/r_NavigatingByURLExamples.html).
+launch actions for ServiceNow. For more information, see the [ServiceNow URL Schema](https://docs.servicenow.com/bundle/madrid-platform-user-interface/page/use/navigation/reference/r_NavigatingByURLExamples.html).
 
 Schema: https://\<baseURL\>/nav_to.do?uri=\<table
 name\>.do?sys_id=-1%26sysparm_query=\<field1=value1\>\^\<field2=value2\>
@@ -65,7 +66,7 @@ name\>.do?sys_id=-1%26sysparm_query=\<field1=value1\>\^\<field2=value2\>
     such as the \# or + characters.
 > -   As a data curation step, the PREVIOUS \$m.do\# URL should only be configured
     in the MMPK and nav_to.do URL format in the Indoors web app.
-> -   The \$m.do\# URL format, when launched from 311 within Indoors, is supported
+> -   The \$m.do\# URL format, when launched from the launch actions button within Indoors, is supported
     on both the mobile ServiceNow Classic app and mobile browser on iOS and
     Android devices.
 
@@ -75,12 +76,12 @@ name\>.do?sys_id=-1%26sysparm_query=\<field1=value1\>\^\<field2=value2\>
 
 Additional configuration is required for the location values loaded into
 ServiceNow using the ServiceNow Location Loader python tool to populate the
-Location text box within ServiceNow when using ArcGIS Indoors 311 functionality.
+Location text box within ServiceNow when using ArcGIS Indoors launch action functionality.
 
 ## Disable the (BP) Set Location to User script
 
 By default, ServiceNow enables a script that automatically populates the
-Location field for an incident with the location of the user that is signed in. This will need to be disabled for ArcGIS Indoors to pass the location when using 311. To do this, perform the following steps.
+Location field for an incident with the location of the user that is signed in. This will need to be disabled for ArcGIS Indoors to pass the location when using launch actions. To do this, perform the following steps.
 
 1.  Sign in to the ServiceNow service management instance with administrative
     privileges.
@@ -102,7 +103,7 @@ Location field for an incident with the location of the user that is signed in. 
 
 ServiceNow associates each location loaded into ServiceNow with a sys_id that
 only it knows about, which it uses to populate the Location text box. For
-Indoors to populate the Location text box using 311, a script will need to be
+Indoors to populate the Location text box using launch actions, a script will need to be
 configured to convert the text location from Indoors into a sys_id that
 ServiceNow recognizes. To do this, perform the following steps.
 
