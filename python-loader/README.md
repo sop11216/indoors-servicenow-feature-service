@@ -22,11 +22,12 @@ relationship between the units, levels and facilities.
 
 -   The Units layer should contain a LEVEL_ID field that associates that unit
     with a feature in the Levels layer.
-
+    
+<!---may need to remove the following two bullets or, at minimum modify them since these fields are no longer created in the Indoors model.--->
 -   The tool populates the address information along with coordinates, if
     available in the data. It will load the parent facility’s address for all
     the spaces contained within.
-
+    
 -   The following fields will be populated in the ServiceNow location table:
     Name, Street, City, State / Province, Zip / Postal Code, Country, Parent,
     Latitude, Longitude.
