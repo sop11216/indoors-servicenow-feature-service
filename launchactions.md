@@ -13,7 +13,7 @@ for ServiceNow.
 Launch actions can be configured in ArcGIS Pro or in Indoor Viewer.
 An actionable URL must be specified to enable
 the launch action button. The invoked system will then be able to parse this URL.
-For more information, see the [Configure launch actions topic](https://pro.arcgis.com/en/pro-app/latest/help/data/indoors/configure-launch-actions-for-indoors-apps.htm).
+For more information, see [Configure launch actions](https://pro.arcgis.com/en/pro-app/latest/help/data/indoors/configure-launch-actions-for-indoors-apps.htm) and [Launch action syntax](https://pro.arcgis.com/en/pro-app/latest/help/data/indoors/launch-action-syntax.htm).
 
 ## Syntax
 
@@ -27,7 +27,7 @@ sysparm_query=field1={Layer.Attribute}\^field2={Attribute}
 
 > Note:
 The layer is optional, and if left out, it will default to the current item for
-which the launch action action button is clicked. Many launch action use cases will require passing
+which the launch action button is clicked. Many launch action use cases will require passing
 attributes from a different layer in the map or scene. This is supported with
 the layer operator. Arguments and values are not case-sensitive.
 
@@ -72,7 +72,7 @@ name\>.do?sys_id=-1%26sysparm_query=\<field1=value1\>\^\<field2=value2\>
 
 
 
-# ServiceNow configuration for 311 location
+# ServiceNow configuration for launch action location
 
 Additional configuration is required for the location values loaded into
 ServiceNow using the ServiceNow Location Loader python tool to populate the
@@ -127,50 +127,60 @@ desktop browsers.
 6.  Set the following:
 
     a.  Name: Location for ArcGIS Indoors (desktop)
-    b.  Table: Incident [incident]
-    c.  UI Type: Desktop
-    d.  Type: onload
-    e.  Application: Global
-    f.  Active: Checked
-    g.  Inherited: Unchecked
-    h.  Global: Checked
-    i.  Description: This script reads the location value passed from the URL     as part of the sysparm_query.
-    j. Messages: \<Optional\>
-    k. Script:
-```
-function onLoad(){
-    var loc;
-    var query_param = getParmVal('sysparm_query');
-    var param = query_param.split("^");
-    for(var index=0; index<param.length; index++){
-        var sub_param = param[index].split("=");
-        if(sub_param[0].toUpperCase() == "LOCATION"){
-            loc = sub_param[1];
-        }
-    }
-    g_form.getReference('location');
-    var ga = new GlideAjax('Location_Query');
-    ga.addParam('sysparm_name', 'querySysID');
-    ga.addParam('location_name', loc);
-    ga.getXML(myCallBack);
     
-}
+    b.  Table: Incident [incident]
+    
+    c.  UI Type: Desktop
+    
+    d.  Type: onload
+    
+    e.  Application: Global
+    
+    f.  Active: Checked
+    
+    g.  Inherited: Unchecked
+    
+    h.  Global: Checked
+    
+    i.  Description: This script reads the location value passed from the URL     as part of the sysparm_query.
+    
+    j. Messages: \<Optional\>
+    
+    k. Script
+    ```
+        function onLoad(){
+            var loc;
+            var query_param = getParmVal('sysparm_query');
+            var param = query_param.split("^");
+            for(var index=0; index<param.length; index++){
+                var sub_param = param[index].split("=");
+                if(sub_param[0].toUpperCase() == "LOCATION"){
+                    loc = sub_param[1];
+                }
+            }
+            g_form.getReference('location');
+            var ga = new GlideAjax('Location_Query');
+            ga.addParam('sysparm_name', 'querySysID');
+            ga.addParam('location_name', loc);
+            ga.getXML(myCallBack);
 
-function myCallBack(response){
-    var output = response.responseXML.documentElement.getAttribute('answer');
-    g_form.setValue('location', output);
-}
+        }
 
-function getParmVal(name){
-    var url = document.URL.parseQuery();
-    if(url[name]){
-        return decodeURI(url[name]);
-    }
-    else{
-        return "not found";
-    }
-}
-```
+        function myCallBack(response){
+            var output = response.responseXML.documentElement.getAttribute('answer');
+            g_form.setValue('location', output);
+        }
+
+        function getParmVal(name){
+            var url = document.URL.parseQuery();
+            if(url[name]){
+                return decodeURI(url[name]);
+            }
+            else{
+                return "not found";
+            }
+        }
+        
 7.  Click **Submit**.
 
 ## Location client script (mobile)
@@ -193,52 +203,62 @@ mobile devices.
 6.  Set the following:
 
     a.  Name: Location for ArcGIS Indoors (Mobile)
+    
     b.  Table: Incident [incident]
+    
     c.  UI Type: Mobile / Service Portal
+    
     d.  Type: onload
+    
     e.  Application: Global
+    
     f.  Active: Checked
+    
     g.  Inherited: Unchecked
+    
     h.  Global: Checked
+    
     i.  Description: This script reads the location value passed from the URL     as part of the sysparm_query.
+    
     j. Messages: \<Optional\>
+    
     k. Script:
 ```
-function onLoad(){
-    var loc;
-    var query_param = getParmVal('sysparm_query');
-    var param = query_param.split("^");
-    for(var index=0; index<param.length; index++){
-        var sub_param = param[index].split("=");
-        if(sub_param[0].toUpperCase() == "LOCATION"){
-            loc = sub_param[1];
+    function onLoad(){
+        var loc;
+        var query_param = getParmVal('sysparm_query');
+        var param = query_param.split("^");
+        for(var index=0; index<param.length; index++){
+            var sub_param = param[index].split("=");
+            if(sub_param[0].toUpperCase() == "LOCATION"){
+                loc = sub_param[1];
+            }
         }
+        g_form.getReference('location');
+        var ga = new GlideAjax('Location_Query');
+        ga.addParam('sysparm_name', 'querySysID');
+        ga.addParam('location_name', loc);
+        ga.getXML(myCallBack);
     }
-    g_form.getReference('location');
-    var ga = new GlideAjax('Location_Query');
-    ga.addParam('sysparm_name', 'querySysID');
-    ga.addParam('location_name', loc);
-    ga.getXML(myCallBack);
-}
 
-function myCallBack(response){
-    var output = response.responseXML.documentElement.getAttribute('answer');
-    g_form.setValue('location', output);
-}
+    function myCallBack(response){
+        var output = response.responseXML.documentElement.getAttribute('answer');
+        g_form.setValue('location', output);
+    }
 
-function getParmVal(name) {  
-    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");  
-    var regexS = "[\\?&]" + name + "=([^&#]*)";  
-    var regex = new RegExp(regexS);  
-    var results = regex.exec(top.location);  
-    if (results == null) {  
-        return "";  
-    } else {  
-        return unescape(results[1]);  
-    }  
-}
-
+    function getParmVal(name) {  
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");  
+        var regexS = "[\\?&]" + name + "=([^&#]*)";  
+        var regex = new RegExp(regexS);  
+        var results = regex.exec(top.location);  
+        if (results == null) {  
+            return "";  
+        } else {  
+            return unescape(results[1]);  
+        }  
+    }
 ```
+    
 7.  Click **Submit**.
 
 ## Script Include (server-side script)
@@ -261,33 +281,40 @@ this, perform the following steps.
 6.  Set the following:
 
     a.  Name: Location_Query
+    
     b.  API Name: global.Location_Query
+    
     c.  Client callable: Checked
+    
     d.  Application: Global
+    
     e.  Accessible from: This application scope only
+    
     f.  Active: Checked
+    
     g.  Description: This script queries the cmn_location table and is client
         callable.
+        
     h.  Script:
 ```
-var Location_Query = Class.create();
-Location_Query.prototype = Object.extendsObject(AbstractAjaxProcessor, {
-    querySysID: function(){
-        var loc_name = this.getParameter('location_name');
-        var getLocation = new GlideRecord('cmn_location');
-        getLocation.addQuery('name','=',loc_name);
-        getLocation.query();
-        while (getLocation.next()) {
-            if(getLocation.name.toUpperCase() == loc_name.toUpperCase()){
-                return getLocation.sys_id;
+    var Location_Query = Class.create();
+    Location_Query.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+        querySysID: function(){
+            var loc_name = this.getParameter('location_name');
+            var getLocation = new GlideRecord('cmn_location');
+            getLocation.addQuery('name','=',loc_name);
+            getLocation.query();
+            while (getLocation.next()) {
+                if(getLocation.name.toUpperCase() == loc_name.toUpperCase()){
+                    return getLocation.sys_id;
+                }
             }
-        }
-    },
-    type: 'Location_Query'
-});
+        },
+        type: 'Location_Query'
+    });
 ```
 
-i.  Protection policy: -- None --
+    i.  Protection policy: -- None --
 
 7.  Click **Submit**.
 
